@@ -76,42 +76,40 @@ It reduces manual work by providing a centralized platform for:
 # 📸 Project Screenshots
 
 ## 1️⃣ Home Page
-![Home Page](images/home.jpeg)
+![Home Page](images/image10.jpeg)
 
 ## 2️⃣ User Login
-![User Login](images/login.jpeg)
+![User Login](images/image11.jpeg)
 
 ## 3️⃣ Admin Dashboard
-![Admin Dashboard](images/dashboard.jpeg)
+![Admin Dashboard](images/image12.jpeg)
 
 ## 4️⃣ Create Event
-![Create Event](images/create-event.jpeg)
+![Create Event](images/image13.jpeg)
 
 ## 5️⃣ View Events
-![View Events](images/event-list.jpeg)
+![View Events](images/image14.jpeg)
 
 ## 6️⃣ Team Management
-![Team Management](images/team-management.jpeg)
+![Team Management](images/image15.jpeg)
 
 ## 7️⃣ Register Team
-![Register Team](images/register-team.jpeg)
+![Register Team](images/image16.jpeg)
 
 ## 8️⃣ Registered Teams
-![Registered Teams](images/registered-teams.jpeg)
+![Registered Teams](images/image17.jpeg)
 
 ## 9️⃣ Player Management
-![Player Management](images/player-management.jpeg)
+![Player Management](images/image18.jpeg)
 
 ## 🔟 Add Player
-![Add Player](images/add-player.jpeg)
+![Add Player](images/image19.jpeg)
 
 ## 1️⃣1️⃣ Generate Schedule
-![Generate Schedule](images/generate-schedule.jpeg)
+![Generate Schedule](images/image20.jpeg)
 
 ## 1️⃣2️⃣ Match Schedule
-![Match Schedule](images/match-schedule.jpeg)
-## 📂 Project Structure
-
+![Match Schedule](images/image21.jpeg)
 ```bash
 sports/
 │── app.py

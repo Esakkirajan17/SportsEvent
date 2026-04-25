@@ -73,43 +73,30 @@ It reduces manual work by providing a centralized platform for:
 4️⃣ Create New Event
 <img width="1350" height="759" alt="image" src="https://github.com/user-attachments/assets/cf73bea1-e1b9-400e-8ae5-52e608e22b47" />
 
-# 📸 Project Screenshots
+5️⃣ Venues
+<img width="1350" height="759" alt="image" src="https://github.com/user-attachments/assets/b9ad4eab-4c70-4b5c-8fe6-4e3aef522ccd" />
 
-## 1️⃣ Home Page
-![Home Page](images/image10.jpeg)
+6️⃣ Team Management
+<img width="1350" height="759" alt="image" src="https://github.com/user-attachments/assets/580e02e3-ed22-4923-9a67-cac6954570ab" />
 
-## 2️⃣ User Login
-![User Login](images/image11.jpeg)
+7️⃣ Create Team
+<img width="1350" height="759" alt="image" src="https://github.com/user-attachments/assets/b3518fae-f427-4bc1-840f-7fbcdea55763" />
 
-## 3️⃣ Admin Dashboard
-![Admin Dashboard](images/image12.jpeg)
+8️⃣ Matches
+<img width="1350" height="759" alt="image" src="https://github.com/user-attachments/assets/23d91ffb-2d2c-4e04-b37b-aeabde5f4fc9" />
 
-## 4️⃣ Create Event
-![Create Event](images/image13.jpeg)
-
-## 5️⃣ View Events
-![View Events](images/image14.jpeg)
-
-## 6️⃣ Team Management
-![Team Management](images/image15.jpeg)
-
-## 7️⃣ Register Team
-![Register Team](images/image16.jpeg)
-
-## 8️⃣ Registered Teams
-![Registered Teams](images/image17.jpeg)
-
-## 9️⃣ Player Management
-![Player Management](images/image18.jpeg)
+## 9️⃣ User dashboard
+<img width="1350" height="759" alt="image" src="https://github.com/user-attachments/assets/b199a952-f0c8-49c3-82f0-7371cf8cbf66" />
 
 ## 🔟 Add Player
-![Add Player](images/image19.jpeg)
+<img width="1350" height="759" alt="image" src="https://github.com/user-attachments/assets/e2546d4b-ef71-443a-ab2b-2d9fe1d7c1eb" />
 
 ## 1️⃣1️⃣ Generate Schedule
-![Generate Schedule](images/image20.jpeg)
+<img width="1320" height="817" alt="image" src="https://github.com/user-attachments/assets/b01a2201-e2c0-4c67-8761-251ccb6473f0" />
 
 ## 1️⃣2️⃣ Match Schedule
-![Match Schedule](images/image21.jpeg)
+<img width="1320" height="742" alt="image" src="https://github.com/user-attachments/assets/9fdb5b7c-eea9-4b80-b35b-4bff5f3f4cfc" />
+
 ```bash
 sports/
 │── app.py

@@ -1,0 +1,126 @@
+{% extends "_base.html" %}
+
+{% block title %}My Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <!-- My Teams Section -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Welcome, {{ session['username'] }}!</h2>
+        </div>
+        
+        <div class="card-section">
+            <h3>My Teams</h3>
+            {% if user_teams %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Team Name</th>
+                            <th>Players Count</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for team in user_teams %}
+                        <tr>
+                            <td>{{ team['event_name'] }}</td>
+                            <td>{{ team['team_name'] }}</td>
+                            <td>
+                                {% set players = get_team_players(team['id']) %}
+                                <span class="badge badge-info">{{ players|length }}</span>
+                            </td>
+                            <td>
+                                <div class="button-group">
+                                    <a href="{{ url_for('add_player', team_id=team['id']) }}" class="btn btn-primary btn-sm">Manage Players</a>
+                                    <form action="{{ url_for('delete_user_team', team_id=team['id']) }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm" 
+                                                onclick="return confirm('Are you sure you want to delete your team \"{{ team.team_name }}\"? This will also delete all players in this team and cannot be undone.')">
+                                            Delete Team
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="empty-message">You have not registered any teams yet. Go to an event and register your team!</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Available Events Section -->
+    <div class="card">
+        <div class="card-section">
+            <h3>Available Events</h3>
+            {% if events %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Start Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in events %}
+                        <tr>
+                            <td>{{ event['name'] }}</td>
+                            <td>{{ event['start_date'] }}</td>
+                            <td>
+                                <div class="button-group">
+                                    <a href="{{ url_for('register_event', event_id=event['id']) }}" class="btn btn-primary btn-sm">Register Team</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="empty-message">No events available at the moment.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- My Upcoming Matches Section -->
+    <div class="card">
+        <div class="card-section">
+            <h3>My Upcoming Matches</h3>
+            {% if matches %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Venue</th>
+                            <th>Teams</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for match in matches %}
+                        <tr>
+                            <td>{{ match['match_date'] }}</td>
+                            <td>{{ match['time_slot'] }}</td>
+                            <td>{{ match['venue_name'] }}</td>
+                            <td>{{ match['team1_name'] }} vs {{ match['team2_name'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="empty-message">No matches have been scheduled yet. Check back after the admin has generated the schedule.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

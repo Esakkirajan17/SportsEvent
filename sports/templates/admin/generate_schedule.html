@@ -1,0 +1,41 @@
+{% extends "_base.html" %}
+
+{% block title %}Generate Schedule{% endblock %}
+
+{% block content %}
+
+<div class="form-center">
+    <div class="form-container">
+        <div class="form-card">
+            <h1 class="text-3xl font-bold text-center mb-6 text-gray-100">Generate Schedule for "{{ event.name }}"</h1>
+            <form action="{{ url_for('generate_schedule', event_id=event.id) }}" method="POST">
+                <div class="form-group">
+                    <label for="duration" class="block text-gray-300 font-bold mb-2">Match Duration (minutes)</label>
+                    <input type="number" id="duration" name="duration" required min="30" max="180" value="60"
+                        class="form-control" placeholder="Enter duration in minutes">
+                </div>
+                <div class="form-group">
+                    <label for="venue_name" class="block text-gray-300 font-bold mb-2">Select Venue</label>
+                    <select id="venue_name" name="venue_name" required class="form-control form-select">
+                        <option value="">-- Select a Venue --</option>
+                        {% for venue in venues %}
+                        <option value="{{ venue.name }}">{{ venue.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="flex items-center justify-between">
+                    <button type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
+                        Generate Schedule
+                    </button>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('manage_teams', event_id=event.id) }}" 
+                       class="text-blue-400 hover:text-blue-300 font-medium">← Back to Manage Teams</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

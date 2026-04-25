@@ -1,0 +1,346 @@
+{% extends "_base.html" %}
+
+{% block title %}System Statistics - 1 Month Report{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>📊 System Statistics - 1 Month Report</h1>
+            <div class="button-group">
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
+                <button onclick="window.print()" class="btn btn-primary">Print Report</button>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <div class="card-section">
+            <div class="grid grid-4">
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_users }}</div>
+                    <div class="stat-label">Total Users</div>
+                    <div class="stat-trend">+{{ new_users }} new</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_events }}</div>
+                    <div class="stat-label">Total Events</div>
+                    <div class="stat-trend">{{ active_events }} active</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_teams }}</div>
+                    <div class="stat-label">Total Teams</div>
+                    <div class="stat-trend">+{{ teams_last_month }} this month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_players }}</div>
+                    <div class="stat-label">Total Players</div>
+                    <div class="stat-trend">+{{ players_last_month }} this month</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Statistics -->
+        <div class="card-section">
+            <h3>👥 User Statistics</h3>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h4>User Distribution</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span>Total Users:</span>
+                            <span class="font-semibold">{{ total_users }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Active Users:</span>
+                            <span class="font-semibold text-green-400">{{ active_users }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Admin Users:</span>
+                            <span class="font-semibold text-blue-400">{{ admin_users }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Regular Users:</span>
+                            <span class="font-semibold">{{ regular_users }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Platform Usage</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span>Desktop:</span>
+                            <span class="font-semibold">{{ platform_usage.desktop }}%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Mobile:</span>
+                            <span class="font-semibold text-green-400">{{ platform_usage.mobile }}%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Chrome Browser:</span>
+                            <span class="font-semibold">{{ platform_usage.chrome }}%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Statistics -->
+        <div class="card-section">
+            <h3>🏆 Event Statistics</h3>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h4>Event Overview</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span>Total Events:</span>
+                            <span class="font-semibold">{{ total_events }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Active Events:</span>
+                            <span class="font-semibold text-green-400">{{ active_events }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Completed Events:</span>
+                            <span class="font-semibold text-blue-400">{{ completed_events }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Upcoming Events:</span>
+                            <span class="font-semibold text-yellow-400">{{ upcoming_events }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>With Schedules:</span>
+                            <span class="font-semibold">{{ events_with_schedules }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Recent Events</h4>
+                    <div class="space-y-2">
+                        {% for event in recent_events %}
+                        <div class="flex justify-between items-center p-2 bg-gray-700 rounded">
+                            <span class="text-sm">{{ event.name }}</span>
+                            <span class="text-xs text-gray-400">{{ event.start_date }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Statistics -->
+        <div class="card-section">
+            <h3>⚽ Team Statistics</h3>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h4>Team Overview</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span>Total Teams:</span>
+                            <span class="font-semibold">{{ total_teams }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>New Teams (30 days):</span>
+                            <span class="font-semibold text-green-400">{{ teams_last_month }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Average per Event:</span>
+                            <span class="font-semibold">
+                                {% if total_events > 0 %}
+                                    {{ (total_teams / total_events)|round(1) }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Top Events by Teams</h4>
+                    <div class="space-y-2">
+                        {% for event in teams_per_event %}
+                        <div class="flex justify-between items-center p-2 bg-gray-700 rounded">
+                            <span class="text-sm truncate">{{ event.event_name }}</span>
+                            <span class="badge badge-info">{{ event.team_count }} teams</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Player Statistics -->
+        <div class="card-section">
+            <h3>👤 Player Statistics</h3>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h4>Player Overview</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span>Total Players:</span>
+                            <span class="font-semibold">{{ total_players }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>New Players (30 days):</span>
+                            <span class="font-semibold text-green-400">{{ players_last_month }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Average per Team:</span>
+                            <span class="font-semibold">
+                                {% if total_teams > 0 %}
+                                    {{ (total_players / total_teams)|round(1) }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Player Activity</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span>Player Registrations:</span>
+                            <span class="font-semibold">{{ players_last_month }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Growth Rate:</span>
+                            <span class="font-semibold text-green-400">
+                                {% if total_players > 0 %}
+                                    {{ ((players_last_month / total_players) * 100)|round(1) }}%
+                                {% else %}
+                                    0%
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Venue & Schedule Statistics -->
+        <div class="card-section">
+            <h3>🏟️ Venue & Schedule Statistics</h3>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h4>Venue Usage</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span>Total Venues:</span>
+                            <span class="font-semibold">{{ total_venues }}</span>
+                        </div>
+                        {% for venue in venue_usage %}
+                        <div class="flex justify-between">
+                            <span class="text-sm">{{ venue.name }}:</span>
+                            <span class="badge {% if venue.match_count > 0 %}badge-success{% else %}badge-secondary{% endif %}">
+                                {{ venue.match_count }} matches
+                            </span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Match Scheduling</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span>Total Matches:</span>
+                            <span class="font-semibold">{{ total_matches }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Recent Matches (30 days):</span>
+                            <span class="font-semibold text-green-400">{{ matches_last_month }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Upcoming Matches:</span>
+                            <span class="font-semibold text-yellow-400">{{ upcoming_matches }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Morning Matches:</span>
+                            <span class="font-semibold">{{ time_slots.morning_matches or 0 }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Afternoon Matches:</span>
+                            <span class="font-semibold">{{ time_slots.afternoon_matches or 0 }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Evening Matches:</span>
+                            <span class="font-semibold">{{ time_slots.evening_matches or 0 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="card-section">
+            <h3>📈 Summary & Insights</h3>
+            <div class="card">
+                <div class="space-y-4">
+                    <div class="grid grid-2">
+                        <div>
+                            <h4 class="text-green-400">✅ Positive Trends</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">
+                                <li>Strong user growth with {{ new_users }} new registrations</li>
+                                <li>Active event participation with {{ active_events }} ongoing events</li>
+                                <li>Healthy team registration rate</li>
+                                <li>Efficient match scheduling system</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-yellow-400">⚠️ Areas to Watch</h4>
+                            <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">
+                                <li>Mobile usage at {{ platform_usage.mobile }}% - optimize mobile experience</li>
+                                <li>Venue utilization varies significantly</li>
+                                <li>Event completion rate could be improved</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-section text-center border-t border-gray-600 pt-4">
+            <p class="text-gray-400 text-sm">
+				Report generated for period: {{ report_period }} to {{ current_date.isoformat() }}            </p>
+            <p class="text-gray-500 text-xs mt-2">
+                Data updates automatically • Last refresh: {{ current_date.strftime('%Y-%m-%d %H:%M') }}
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+.stat-card {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease;
+}
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    display: block;
+}
+.stat-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+.stat-trend {
+    color: var(--success-color);
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+}
+.grid-4 {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+</style>
+
+{% endblock %}

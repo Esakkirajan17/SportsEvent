@@ -1,0 +1,38 @@
+{% extends "_base.html" %}
+
+{% block title %}User Login{% endblock %}
+
+{% block content %}
+
+<div class="form-center">
+    <div class="form-container">
+        <div class="form-card">
+            <h1 class="text-3xl font-bold text-center mb-6 text-gray-100">Login(ADMIN/USER)</h1>
+            <form action="{{ url_for('login') }}" method="POST">
+                <div class="form-group">
+                    <label for="username" class="block text-gray-300 font-bold mb-2">Username</label>
+                    <input type="text" id="username" name="username" required
+                        class="form-control" placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="block text-gray-300 font-bold mb-2">Password</label>
+                    <input type="password" id="password" name="password" required
+                        class="form-control" placeholder="Enter your password">
+                </div>
+                <div class="flex items-center justify-between">
+                    <button type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
+                        Sign In
+                    </button>
+                </div>
+                <div class="text-center mt-4">
+                    <p class="text-gray-400">Don't have an account? 
+                        <a href="{{ url_for('register') }}" class="text-blue-400 hover:text-blue-300 font-medium">Register here</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

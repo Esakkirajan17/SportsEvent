@@ -1,0 +1,32 @@
+{% extends '_base.html' %}
+
+{% block title %}Manage Venues{% endblock %}
+
+{% block content %}
+
+<div class="form-center">
+    <div class="form-container">
+        <div class="form-card">
+            <h1 class="text-3xl font-bold text-center mb-6 text-gray-100">Add New Venue</h1>
+            <form method="post">
+                <div class="form-group">
+                    <label for="venue_name" class="block text-gray-300 font-bold mb-2">Venue Name</label>
+                    <input type="text" id="venue_name" name="venue_name" required
+                        class="form-control" placeholder="Enter venue name">
+                </div>
+                <div class="flex items-center justify-between">
+                    <button type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300">
+                        Add Venue
+                    </button>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('admin_dashboard') }}" 
+                       class="text-blue-400 hover:text-blue-300 font-medium">← Back to Dashboard</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

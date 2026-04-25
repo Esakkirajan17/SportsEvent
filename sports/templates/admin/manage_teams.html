@@ -1,0 +1,58 @@
+{% extends "_base.html" %}
+
+{% block title %}Manage Teams{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>Manage Teams for "{{ event.name }}"</h1>
+            <div class="button-group">
+                <a href="{{ url_for('generate_schedule', event_id=event.id) }}" class="btn btn-success">Generate Schedule</a>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+        </div>
+
+        <div class="card-section">
+            {% if teams %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Team Name</th>
+                            <th>Registered By</th>
+                            <th>Players Count</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for team in teams %}
+                        <tr>
+                            <td>{{ team.team_name }}</td>
+                            <td>{{ team.username }}</td>
+                            <td>
+                                {% set players = get_team_players(team.id) %}
+                                <span class="badge badge-info">{{ players|length }}</span>
+                            </td>
+                            <td>
+                                <div class="button-group">
+                                    <a href="{{ url_for('view_team_players', team_id=team.id) }}" class="btn btn-info btn-sm">View Players</a>
+                                    <form action="{{ url_for('delete_team', team_id=team.id) }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm" 
+                                                onclick="return confirm('Are you sure you want to delete this team and its matches?')">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="empty-message">No teams have registered for this event yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

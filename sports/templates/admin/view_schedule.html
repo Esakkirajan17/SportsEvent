@@ -1,0 +1,42 @@
+{% extends "_base.html" %}
+
+{% block title %}View Schedule{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>Schedule for {{ event.name }}</h1>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+
+        {% if matches %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Venue</th>
+                        <th>Matchup</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for match in matches %}
+                    <tr>
+                        <td>{{ match.match_date }}</td>
+                        <td>{{ match.time_slot }}</td>
+                        <td>{{ match.venue_name }}</td>
+                        <td>{{ match.team1_name }} vs. {{ match.team2_name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="empty-message">No schedule has been generated yet for this event.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

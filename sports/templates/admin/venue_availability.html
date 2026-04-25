@@ -1,0 +1,69 @@
+{% extends "_base.html" %}
+
+{% block title %}Venue Availability{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>Venue Availability</h1>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
+        </div>
+
+        <div class="card-section">
+            <p class="text-gray-400 mb-4">Showing availability for the next 7 days starting from {{ start_date }}</p>
+            
+            {% for venue_data in venue_availability_data %}
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3>{{ venue_data.venue.name }}</h3>
+                    <span class="badge {% if venue_data.venue.is_available %}badge-success{% else %}badge-danger{% endif %}">
+                        {{ "Available" if venue_data.venue.is_available else "Maintenance" }}
+                    </span>
+                </div>
+                
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-gray-400">
+                            {{ venue_data.available_slots }} available slots out of {{ venue_data.total_slots }}
+                        </span>
+                        <span class="text-sm {% if venue_data.available_slots > 0 %}text-green-400{% else %}text-red-400{% endif %}">
+                            {{ "%.1f"|format((venue_data.available_slots / venue_data.total_slots * 100) if venue_data.total_slots > 0 else 0) }}% available
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-7 gap-2">
+                        {% for day_slots in venue_data.availability|batch(8) %}
+                        <div class="text-center">
+                            <div class="font-semibold text-sm mb-2">{{ day_slots[0].date if day_slots }}</div>
+                            <div class="space-y-1">
+                                {% for slot in day_slots %}
+                                <div class="text-xs p-1 rounded {% if slot.available %}bg-green-500 text-white{% else %}bg-red-500 text-white{% endif %}"
+                                     title="{{ slot.time }} - {% if slot.available %}Available{% else %}Booked{% endif %}">
+                                    {{ slot.time }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mt-4 flex gap-2">
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-green-500 rounded mr-1"></div>
+                            <span class="text-xs text-gray-400">Available</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-red-500 rounded mr-1"></div>
+                            <span class="text-xs text-gray-400">Booked</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

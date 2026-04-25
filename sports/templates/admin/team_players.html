@@ -1,0 +1,119 @@
+{% extends "_base.html" %}
+
+{% block title %}Team Players - {{ team.team_name }}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>Players for {{ team.team_name }}</h1>
+            <div class="button-group">
+                <a href="{{ url_for('manage_teams', event_id=team.event_id) }}" class="btn btn-secondary">← Back to Teams</a>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary">Dashboard</a>
+            </div>
+        </div>
+
+        <div class="card-section">
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-4 text-gray-100">Team Information</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Team Name:</span>
+                            <span class="font-semibold">{{ team.team_name }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Event:</span>
+                            <span class="font-semibold">{{ team.event_name }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Registered By:</span>
+                            <span class="font-semibold">{{ team.username }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Total Players:</span>
+                            <span class="badge badge-info">{{ players|length }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-4 text-gray-100">Player Statistics</h3>
+                    <div class="space-y-3">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-blue-400">{{ players|length }}</div>
+                            <div class="text-gray-400">Total Players</div>
+                        </div>
+                        {% if players %}
+                        <div class="text-center">
+                            <div class="text-sm text-gray-400">Player Names:</div>
+                            <div class="flex flex-wrap gap-1 justify-center mt-2">
+                                {% for player in players %}
+                                <span class="bg-blue-500 text-white px-2 py-1 rounded text-xs">{{ player.player_name }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-section">
+            <h3>Player List</h3>
+            {% if players %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player in players %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ player.player_name }}</td>
+                            <td>
+                                <form action="{{ url_for('admin_delete_player', player_id=player.id) }}" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" 
+                                            onclick="return confirm('Are you sure you want to delete this player?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-message text-center py-8">
+                <div class="text-4xl mb-4">👥</div>
+                <h4 class="text-xl font-semibold mb-2">No Players Yet</h4>
+                <p class="text-gray-400">This team doesn't have any players registered yet.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Add Player Form (Admin can add players to any team) -->
+        <div class="card-section">
+            <h3>Add New Player to Team</h3>
+            <div class="card" style="max-width: 400px;">
+                <form action="{{ url_for('add_player', team_id=team.id) }}" method="post">
+                    <div class="form-group">
+                        <label for="player_name" class="block text-gray-300 font-bold mb-2">Player Name</label>
+                        <input type="text" id="player_name" name="player_name" required
+                            class="form-control" placeholder="Enter player name">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full">Add Player to Team</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
